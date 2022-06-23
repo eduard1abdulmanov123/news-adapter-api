@@ -3,9 +3,9 @@ package abdulmanov.eduard.newsadapterapi.newsadapterapi.service
 import abdulmanov.eduard.newsadapterapi.newsadapterapi.model.Article
 import abdulmanov.eduard.newsadapterapi.newsadapterapi.network.NetworkClient
 import abdulmanov.eduard.newsadapterapi.newsadapterapi.parser.ArticleParser
+import kotlinx.coroutines.flow.*
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
-
-private const val URL = "https://www.vesti.ru/vesti.rss"
 
 @Service
 class ArticleService(
@@ -13,8 +13,11 @@ class ArticleService(
     private val articleParser: ArticleParser
 ) {
 
-    suspend fun getNews(): List<Article> {
-        return networkClient.makeRequest(URL)
-            .let(articleParser::invoke)
+    @Value("\${vesti-ru-url}")
+    lateinit var url: String
+
+    fun getNews(): Flow<Article> {
+        return flow { emit(networkClient.makeRequest(url)) }
+            .flatMapConcat(articleParser::invoke)
     }
 }

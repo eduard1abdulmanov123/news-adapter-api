@@ -4,13 +4,11 @@ import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-inline fun <R> NodeList.toList(transform: (Element) -> R): List<R> {
-    return mutableListOf<R>().apply {
-        for (i in 0 until length) {
-            val node = item(i)
-            if (node.nodeType == Node.ELEMENT_NODE) {
-                add(transform(node as Element))
-            }
+inline fun NodeList.forEach(action: (Element) -> Unit) {
+    for (i in 0 until length) {
+        val node = item(i)
+        if (node.nodeType == Node.ELEMENT_NODE) {
+            action(node as Element)
         }
     }
 }

@@ -12,18 +12,24 @@ group = "abdulmanov.eduard.news-adapter-api"
 version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+val coroutinesVersion = "1.6.2"
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutinesVersion")
+
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.2")
 }
 
 tasks.withType<KotlinCompile> {
